@@ -1,24 +1,65 @@
-import { restaurantList } from "../constants";
+import { swiggy_api_URL,restaurantList } from "../constants";
 import RestrauntCard from "./RestrauntCard";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
-function filterData(searchText, restaurants) {
-  const filterData = restaurants.filter((restaurant) =>
-    restaurant.data.name.includes(searchText)
-  );
-  return filterData;
+
+function filterData(searchText, items, keyPath) {
+  const searchLowerCase = searchText.toLowerCase();
+  const filteredData = items.filter(item => {
+    const valueAtPath = keyPath.reduce((accumulator, currentValue) => accumulator?.[currentValue], item);
+    return valueAtPath?.toLowerCase().includes(searchLowerCase);
+  });
+  return filteredData;
 }
 
+
 const Body = () => {
-  const [restaurants, setRestaurants] = useState(restaurantList);
+  const [restaurants, setRestaurants] = useState([]);
 
   // searchText is a local state variable
   const [searchText, setSearchText] = useState(); // returns [variable name, set function to update the variable]
 
   //const[searchClicked, setSearchClicked] = useState("false")
 
+
+  useEffect(()=>{
+    getrestaurants();
+  },[])
+
+  // getRestaurant to fetch Swiggy API data
+  const getrestaurants = async () =>{
+    const data = await fetch(swiggy_api_URL);
+    const json = await data.json();
+    // we get the Swiggy API data in json format
+    console.log("json: " + JSON.stringify(json));
+    //Optional Chaining
+    // const restaurantAll = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+    //console.log("restaurants: " + restaurantAll)
+    // console.log(JSON.stringify(restaurantAll));
+
+  //  setRestaurants(restaurantAll)
+   
+      // console.log(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants[0].info.name)
+    
+  };
+
+  //Conditional Rendering
+  if (restaurants.length === 0){
+    return (
+      <div className="loading">
+        <Shimmer />
+      </div>
+    );
+  }
+
+ 
+
+
+
   return (
     <>
+   
       <div className="search-container">
         <input
           className="search-input"
@@ -33,10 +74,8 @@ const Body = () => {
         <button
           className="search-btn"
           onClick={() => {
-            //need to filter the data
-            //update the state - restaurants
-            const data = filterData(searchText, restaurants);
-            setRestaurants(data);
+            const filteredRestaurants = filterData(searchText, restaurants, ['info', 'name']);
+            setRestaurants(filteredRestaurants);
           }}
         >
           Search
@@ -45,7 +84,8 @@ const Body = () => {
       <div className="restaurant-list">
         {restaurants.map((restaurant) => {
           return (
-            <RestrauntCard {...restaurant.data} key={restaurant.data.id} />
+            
+            <RestrauntCard {...restaurant.info} key={restaurant.info.id} />
           );
         })}
       </div>

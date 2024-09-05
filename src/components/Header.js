@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import {Link} from 'react-router-dom';
+import Logo from "./assets/image/Logo.png";
 import "./Header.css";
 
 const Title = () => (
@@ -6,21 +8,39 @@ const Title = () => (
     <img
       className="logo"
       alt="logo"
-      src="https://t1.gstatic.com/images?q=tbn:ANd9GcTsFA_WDM7tGA5t-3uQ8VwxLTxVD2fwELRn_QHRJ7hwxoWU5MHI"
+      src = {Logo}
+      // src="https://t1.gstatic.com/images?q=tbn:ANd9GcTsFA_WDM7tGA5t-3uQ8VwxLTxVD2fwELRn_QHRJ7hwxoWU5MHI"
     />
   </a>
 );
 
+// SPA Single Page Application ?? 
+// Client Side Routing
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(()=>{
+    console.log("useEffect")
+  },[])
+
+  console.log("Header is Rendered")
   return (
     <div className="header">
       <Title />
       <div className="nav-items">
         <ul>
-          <li>Home</li>
-          <li>About</li>
-          <li>Contact</li>
+          <Link to="/">
+            <li>Home</li>
+          </Link>
+          
+          
+          <Link to="/about">
+            <li>About</li>
+          </Link>
+          <Link to="/contact">
+              <li>Contact</li>
+          </Link>
+          
           <li>Cart</li>
           {isLoggedIn ? (
             <button className="login" onClick={() => setIsLoggedIn(false)}>

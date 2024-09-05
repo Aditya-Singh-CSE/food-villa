@@ -3,6 +3,9 @@ import "./index.css";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
+import { Outlet } from 'react-router-dom';
+import About from "./components/About";
+import Contact from "./components/Contact";
 import { IMG_CDN_URL } from "./constants";
 
 /**
@@ -27,6 +30,7 @@ import { IMG_CDN_URL } from "./constants";
  */
 
 function App() {
+  console.log("App.js is called")
   return (
     <div>
       <Header />
@@ -37,3 +41,16 @@ function App() {
 }
 
 export default App;
+
+
+
+// export const AppLayout = () =>{
+//   return(
+//     <>
+//     <Header/>
+//     {/* { Outlet } */}
+//     <Outlet/>
+//     <Footer/>
+//     </>
+//   );
+// }

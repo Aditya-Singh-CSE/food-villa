@@ -7,6 +7,7 @@ import About from './components/About';
 import Contact from './components/Contact';
 import Login from './components/Login';
 import RestrauntMenu from './components/RestrauntMenu';
+import Profile from "./components/Profile";
 import RequireAuth from './common/components/RequireAuth';
 import { ROLES } from './constants';
 import Error from './components/Error';
@@ -36,8 +37,14 @@ const router = createBrowserRouter([
                 element: <Body/>,
             },
             {
-                path:"/about",
+                path:"/about", //  parentPath/{path} =>localhost:3000/about
                 element:<About/>,
+                children:[
+                    {
+                        path: "profile", // parentPath/{path} =>localhost:3000/about/profile
+                        element: <Profile/>
+                    }
+                ]
             },
             {
                 path: "/contact",

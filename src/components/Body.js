@@ -3,16 +3,18 @@ import RestrauntCard from "./RestrauntCard";
 import { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import Shimmer from "./Shimmer";
+import { filterData } from "../utils/helper";
+import useOnline from "../hooks/useOnline";
 
 
-function filterData(searchText, items, keyPath) {
-  const searchLowerCase = searchText.toLowerCase();
-  const filteredData = items.filter(item => {
-    const valueAtPath = keyPath.reduce((accumulator, currentValue) => accumulator?.[currentValue], item);
-    return valueAtPath?.toLowerCase().includes(searchLowerCase);
-  });
-  return filteredData;
-}
+// function filterData(searchText, items, keyPath) {
+//   const searchLowerCase = searchText.toLowerCase();
+//   const filteredData = items.filter(item => {
+//     const valueAtPath = keyPath.reduce((accumulator, currentValue) => accumulator?.[currentValue], item);
+//     return valueAtPath?.toLowerCase().includes(searchLowerCase);
+//   });
+//   return filteredData;
+// }
 
 
 const Body = () => {
@@ -44,6 +46,13 @@ const Body = () => {
       // console.log(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants[0].info.name)
     
   };
+
+
+  const isOnline = useOnline();
+  if(!isOnline){
+    return <h1>🔴 Offline, please check your internet connection!!</h1>;
+  }
+
 
   //Conditional Rendering
   if (restaurants.length === 0){

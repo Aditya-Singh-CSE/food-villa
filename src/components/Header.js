@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import {Link} from 'react-router-dom';
 import Logo from "./assets/image/Logo.png";
+import useOnline from "../hooks/useOnline";
 import "./Header.css";
 
 const Title = () => (
@@ -18,6 +19,9 @@ const Title = () => (
 // Client Side Routing
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const isOnline = useOnline();
+
 
   useEffect(()=>{
     console.log("useEffect")
@@ -40,8 +44,12 @@ const Header = () => {
           <Link to="/contact">
               <li>Contact</li>
           </Link>
+          <Link to="/instamart">
+            <li>Instamart</li>
+          </Link>
           
           <li>Cart</li>
+          <div>{isOnline ?"🟢" :"🔴"}</div>
           {isLoggedIn ? (
             <button className="login" onClick={() => setIsLoggedIn(false)}>
               Logout

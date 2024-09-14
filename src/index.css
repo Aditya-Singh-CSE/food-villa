@@ -1,4 +1,10 @@
-body {
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +16,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
-}
+} */
+
+/*  Normal native CSS
+ SCSS 
+ inline css
+ Component Libraries - Material UI, Base UI, Ant , Chakra  //Explore these
+ // Styled Components
+
+ //We are using
+ Tailwind CSS Framework
+   - CSS on the go(in the same file)
+   - reusability
+   - less bundle size
+   - Flexible UI (Customizations
+ */

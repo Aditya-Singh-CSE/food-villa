@@ -70,9 +70,9 @@ const Body = () => {
   return (
     <>
    
-      <div className="search-container">
+      <div className="search-container p-5 bg-pink-50 my-5">
         <input
-          className="search-input"
+          className="focus:bg-green-200 p-2 m-2"
           type="text"
           placeholder="Search"
           value={searchText}
@@ -82,7 +82,7 @@ const Body = () => {
           }}
         />
         <button
-          className="search-btn"
+          className="p-2 m-2 bg-purple-900 hover:bg-gray-500 text-white rounded-md"
           onClick={() => {
             const filteredRestaurants = filterData(searchText, restaurants, ['info', 'name']);
             setRestaurants(filteredRestaurants);
@@ -91,7 +91,7 @@ const Body = () => {
           Search
         </button>
       </div>
-      <div className="restaurant-list">
+      <div className="flex flex-wrap ">
         {restaurants.map((restaurant) => {
           return (
             <Link to={"/restaurant/" +restaurant?.info?.id} key={restaurant?.info?.id}>

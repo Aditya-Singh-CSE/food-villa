@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import {Link} from 'react-router-dom';
 import Logo from "./assets/image/Logo.png";
 import useOnline from "../hooks/useOnline";
-import "./Header.css";
+//import "./Header.css";
 
 const Title = () => (
   <a href="/">
     <img
-      className="logo"
+      className="h-28 p-2"
       alt="logo"
       src = {Logo}
       // src="https://t1.gstatic.com/images?q=tbn:ANd9GcTsFA_WDM7tGA5t-3uQ8VwxLTxVD2fwELRn_QHRJ7hwxoWU5MHI"
@@ -29,26 +29,28 @@ const Header = () => {
 
   console.log("Header is Rendered")
   return (
-    <div className="header">
+    <div className="flex justify-between bg-pink-50 shadow-lg sm:bg-blue-50">
       <Title />
-      <div className="nav-items">
-        <ul>
+      <div >
+        <ul className="flex py-10">
           <Link to="/">
-            <li>Home</li>
+            <li className="px-2">Home</li>
           </Link>
           
           
           <Link to="/about">
-            <li>About</li>
+            <li className="px-2">About</li>
           </Link>
           <Link to="/contact">
-              <li>Contact</li>
+              <li className="px-2">Contact</li>
           </Link>
           <Link to="/instamart">
-            <li>Instamart</li>
+            <li className="px-2">Instamart</li>
+          </Link>
+          <Link to="/cart">
+          <li className="px-2">Cart</li>
           </Link>
           
-          <li>Cart</li>
           <div>{isOnline ?"🟢" :"🔴"}</div>
           {isLoggedIn ? (
             <button className="login" onClick={() => setIsLoggedIn(false)}>

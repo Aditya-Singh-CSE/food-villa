@@ -1,5 +1,5 @@
 import {  createBrowserRouter,Outlet } from 'react-router-dom';
-import  { lazy, Suspense } from 'react';
+import  { lazy, Suspense, useState,useEffect } from 'react';
 //import { AppLayout } from './App';
 import Header from './components/Header';
 import Body from './components/Body';
@@ -15,6 +15,7 @@ import Profile from "./components/Profile";
 import RequireAuth from './common/components/RequireAuth';
 import { ROLES } from './constants';
 import Error from './components/Error';
+import UserContext from './context/UserContext';
 
 const Instamart = lazy(()=>import("./components/Instamart"));
 // Upon On Demand Loading -> upon render -> suspend loading 
@@ -30,13 +31,35 @@ const Instamart = lazy(()=>import("./components/Instamart"));
 // On Demand Loading
 // Dynamic Import
 
+
+
 const AppLayout = () =>{
+
+
+    const [user, setUser] = useState({
+        name: "Aditya Singh",
+        email:"supprt@namastedev.com",
+    });
+
+    useEffect(()=>{
+        // fetch user data from backend
+        // authenticate user
+    },[]);
+
     return(
       <>
+      <UserContext.Provider
+      value={{
+        user: user,
+        setUser: setUser,
+      }
+      }
+      >
       <Header/>
       {/* { Outlet } */}
       <Outlet/>
       <Footer/>
+      </UserContext.Provider>
       </>
     );
   }

@@ -1,7 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import {Link} from 'react-router-dom';
 import Logo from "./assets/image/Logo.png";
 import useOnline from "../hooks/useOnline";
+import UserContext from "../context/UserContext";
 //import "./Header.css";
 
 const Title = () => (
@@ -21,6 +22,9 @@ const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const isOnline = useOnline();
+
+  const { user } = useContext(UserContext);
+
 
 
   useEffect(()=>{
@@ -52,6 +56,7 @@ const Header = () => {
           </Link>
           
           <div>{isOnline ?"🟢" :"🔴"}</div>
+          <span className=" font-bold text-red-900">{user.name}</span>
           {isLoggedIn ? (
             <button className="login" onClick={() => setIsLoggedIn(false)}>
               Logout

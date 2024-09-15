@@ -2,6 +2,7 @@ import { Outlet } from "react-router-dom";
 import Profile from "./ProfileClass.js";
 import ProfileFunctionComponenet from "./Profile.js";
 import { Component } from 'react';
+import UserContext from "../context/UserContext.js";
 
 // const About2 = () =>{
 //     return(
@@ -37,6 +38,14 @@ class About extends Component {
         return(
             <>
             <h1>About Us Page</h1>
+
+            <UserContext.Consumer>
+                {({user})=>{
+                    <h4 className="font-bold text-xl p-10">
+                        {user.name} - {user.email}
+                    </h4>
+                }}
+            </UserContext.Consumer>
             <p>This is the Namaste React Live course Chapter-07 - Finding the Pat</p>
             <ProfileFunctionComponenet name={"Aditya"}/>
             {/* <Profile name={"First Child"}/> */}

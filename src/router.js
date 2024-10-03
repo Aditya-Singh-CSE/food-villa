@@ -16,6 +16,8 @@ import RequireAuth from './common/components/RequireAuth';
 import { ROLES } from './constants';
 import Error from './components/Error';
 import UserContext from './context/UserContext';
+import { Provider } from "react-redux";
+import store from './utils/store';
 
 const Instamart = lazy(()=>import("./components/Instamart"));
 // Upon On Demand Loading -> upon render -> suspend loading 
@@ -48,6 +50,7 @@ const AppLayout = () =>{
 
     return(
       <>
+      <Provider store={store}>
       <UserContext.Provider
       value={{
         user: user,
@@ -60,6 +63,7 @@ const AppLayout = () =>{
       <Outlet/>
       <Footer/>
       </UserContext.Provider>
+      </Provider>
       </>
     );
   }

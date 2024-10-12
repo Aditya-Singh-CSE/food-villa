@@ -1,8 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
 import Logo from "./assets/image/Logo.png";
 import useOnline from "../hooks/useOnline";
 import UserContext from "../context/UserContext";
+import { useSelector } from "react-redux";
 //import "./Header.css";
 
 const Title = () => (
@@ -10,13 +11,13 @@ const Title = () => (
     <img
       className="h-28 p-2"
       alt="logo"
-      src = {Logo}
+      src={Logo}
       // src="https://t1.gstatic.com/images?q=tbn:ANd9GcTsFA_WDM7tGA5t-3uQ8VwxLTxVD2fwELRn_QHRJ7hwxoWU5MHI"
     />
   </a>
 );
 
-// SPA Single Page Application ?? 
+// SPA Single Page Application ??
 // Client Side Routing
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -25,37 +26,41 @@ const Header = () => {
 
   const { user } = useContext(UserContext);
 
+  //Subscrbe the store
+  const cartItems = useSelector((store) => store.cart.items);
 
+  // Log the length of cartItems
+  console.log("Length of cartItems:", cartItems.length); // Added console log
+  // console.log(cartItems)
 
-  useEffect(()=>{
-    console.log("useEffect")
-  },[])
+  useEffect(() => {
+    console.log("useEffect");
+  }, []);
 
-  console.log("Header is Rendered")
+  console.log("Header is Rendered");
   return (
     <div className="flex justify-between bg-pink-50 shadow-lg sm:bg-blue-50">
       <Title />
-      <div >
+      <div>
         <ul className="flex py-10">
           <Link to="/">
             <li className="px-2">Home</li>
           </Link>
-          
-          
+
           <Link to="/about">
             <li className="px-2">About</li>
           </Link>
           <Link to="/contact">
-              <li className="px-2">Contact</li>
+            <li className="px-2">Contact</li>
           </Link>
           <Link to="/instamart">
             <li className="px-2">Instamart</li>
           </Link>
           <Link to="/cart">
-          <li className="px-2">Cart</li>
+            <li className="px-2">Cart - {cartItems.length} items</li>
           </Link>
-          
-          <div>{isOnline ?"🟢" :"🔴"}</div>
+
+          <div>{isOnline ? "🟢" : "🔴"}</div>
           <span className=" font-bold text-red-900">{user.name}</span>
           {isLoggedIn ? (
             <button className="login" onClick={() => setIsLoggedIn(false)}>

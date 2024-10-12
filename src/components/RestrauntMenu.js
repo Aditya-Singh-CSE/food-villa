@@ -8,6 +8,8 @@ import {
 } from "../constants";
 import Shimmer from "./Shimmer";
 import useRestrauntMenuData from "../hooks/useRestrauntMenuData";
+import { addItem } from "../utils/cartSlice";
+import { useDispatch } from "react-redux";
 import "./RestrauntMenu.css";
 
 const RestrauntMenu = () => {
@@ -17,44 +19,14 @@ const RestrauntMenu = () => {
 
   const [restaurant, menuItems] = useRestrauntMenuData(id);
 
-  // const [restaurant, setRestaurant] = useState(null);
-  // const [menuItems, setMenuItems] = useState([]);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   getRestaurantInfo();
-  // }, []);
 
-  // async function getRestaurantInfo() {
-  //   const data = await fetch(swiggy_menu_api_URL + id);
-  //   console.log("URL:", swiggy_menu_api_URL + id);
-  //   const json = await data.json();
-  //   console.log(json);
-  //   // Set restaurant data
-  //   const restaurantData =
-  //     json?.data?.cards
-  //       ?.map((x) => x.card)
-  //       ?.find((x) => x && x.card["@type"] === RESTAURANT_TYPE_KEY)?.card
-  //       ?.info || null;
-  //   setRestaurant(restaurantData);
 
-  //   // Set menu item data
-  //   const menuItemsData =
-  //     json?.data?.cards
-  //       .find((x) => x.groupedCard)
-  //       ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map((x) => x.card?.card)
-  //       ?.filter((x) => x["@type"] == MENU_ITEM_TYPE_KEY)
-  //       ?.map((x) => x.itemCards)
-  //       .flat()
-  //       .map((x) => x.card?.info) || [];
+  const addFoodItem = (item) =>{
+    dispatch(addItem(item));
+  };
 
-  //      const uniqueMenuItems = [];
-  //      menuItemsData.forEach((item) => {
-  //      if (!uniqueMenuItems.find((x) => x.id === item.id)) {
-  //       uniqueMenuItems.push(item);
-  //     }
-  //   });
-  //   setMenuItems(uniqueMenuItems);
-  // }
 
   return !restaurant ? (
     <>
@@ -62,7 +34,7 @@ const RestrauntMenu = () => {
     </>
   ) : (
     <>
-      <div className="menu">
+      <div className="flex">
         <div>
           <h1>Restaurat id: {id}</h1>
           <h2>{restaurant?.name}</h2>
@@ -75,12 +47,13 @@ const RestrauntMenu = () => {
           <h3>{restaurant.avgRating} stars</h3>
           <h3>{restaurant.costForTwoMessage}</h3>
         </div>
-        <div>
-          <h1>Recommended</h1>
+       
+        <div className="p-5">
+          <h1>Menu</h1>
           <p>{menuItems.length} Items</p>
           <ul>
             {menuItems.map((item) => {
-              return <li key={item.id}>{item.name}</li>;
+              return <li key={item.id}>{item.name} - <button className="pa-1 bg-green-50" onClick={()=>{addFoodItem(item)}}>Add</button></li>;
             })}
           </ul>
         </div>

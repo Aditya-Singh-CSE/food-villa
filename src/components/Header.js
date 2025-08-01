@@ -40,39 +40,49 @@ const Header = () => {
 
   console.log("Header is Rendered");
   return (
-    <div className="flex justify-between bg-pink-50 shadow-lg sm:bg-blue-50">
-      <Title />
-      <div>
-        <ul className="flex py-10">
-          <Link to="/">
-            <li className="px-2">Home</li>
-          </Link>
-
-          <Link to="/about">
-            <li className="px-2">About</li>
-          </Link>
-          <Link to="/contact">
-            <li className="px-2">Contact</li>
-          </Link>
-          <Link to="/instamart">
-            <li className="px-2">Instamart</li>
-          </Link>
-          <Link to="/cart">
-            <li className="px-2" data-testid="cart">Cart - {cartItems.length} items</li>
-          </Link>
-
-          <div data-testid="online-status">{isOnline ? "🟢" : "🔴"}</div>
-          <span className=" font-bold text-red-900">{user.name}</span>
-          {isLoggedIn ? (
-            <button className="login" onClick={() => setIsLoggedIn(false)}>
-              Logout
-            </button>
-          ) : (
-            <button className="login" onClick={() => setIsLoggedIn(true)}>
-              Login
-            </button>
-          )}
-        </ul>
+    <div className="w-full bg-pink-50 shadow-lg sm:bg-blue-50">
+      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+        <div className="flex flex-col sm:flex-row justify-between items-center">
+          <Title />
+          <div className="w-full sm:w-auto">
+            <ul className="flex flex-wrap items-center justify-center sm:justify-end py-2 sm:py-4">
+              <li className="px-2 py-1">
+                <Link to="/">Home</Link>
+              </li>
+              <li className="px-2 py-1">
+                <Link to="/about">About</Link>
+              </li>
+              <li className="px-2 py-1">
+                <Link to="/contact">Contact</Link>
+              </li>
+              <li className="px-2 py-1">
+                <Link to="/instamart">Instamart</Link>
+              </li>
+              <li className="px-2 py-1">
+                <Link to="/cart" data-testid="cart">Cart - {cartItems.length} items</Link>
+              </li>
+              <li className="px-2 py-1">
+                <span data-testid="online-status">{isOnline ? "🟢" : "🔴"}</span>
+              </li>
+              <li className="px-2 py-1">
+                <span className="font-bold text-red-900">{user.name}</span>
+              </li>
+              <li className="px-2 py-1">
+                {isLoggedIn ? (
+                  <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" 
+                          onClick={() => setIsLoggedIn(false)}>
+                    Logout
+                  </button>
+                ) : (
+                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
+                          onClick={() => setIsLoggedIn(true)}>
+                    Login
+                  </button>
+                )}
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );

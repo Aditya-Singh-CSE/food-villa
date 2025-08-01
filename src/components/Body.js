@@ -94,32 +94,20 @@ const Body = () => {
         >
           Search
         </button>
-        <input value={user.name} onChange={
-          e =>{
-            setUser({
-              ...user,
-              name: e.target.value,
-            })
-          }
-        }></input>
+   
 
-<input value={user.email} onChange={
-          e =>{
-            setUser({
-              ...user,
-              email: e.target.value,
-            })
-          }
-        }></input>
+
       </div>
-      <div className="flex flex-wrap " data-testid="res-list">
-        {restaurants.map((restaurant) => {
-          return (
-            <Link to={"/restaurant/" +restaurant?.info?.id} key={restaurant?.info?.id}>
-            <RestrauntCard {...restaurant.info} />
-            </Link>
-          );
-        })}
+      <div className="w-full px-2 sm:px-4">
+        <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6" data-testid="res-list">
+          {restaurants.map((restaurant) => (
+            <div key={restaurant?.info?.id} className="h-full">
+              <Link to={"/restaurant/" + restaurant?.info?.id} className="block h-full">
+                <RestrauntCard {...restaurant.info} />
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </>
   );

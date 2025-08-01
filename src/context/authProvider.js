@@ -6,8 +6,9 @@ export const AuthProvider = ({ children }) => {
   // Initialize state from localStorage if it exists
   const [auth, setAuth] = useState(() => {
     const storedAuth = localStorage.getItem("auth");
-    return storedAuth ? JSON.parse(storedAuth) : {};
+    return storedAuth ? JSON.parse(storedAuth) : { role:"user"};
   });
+
 
   // Whenever the auth state changes, save it to localStorage
   useEffect(() => {

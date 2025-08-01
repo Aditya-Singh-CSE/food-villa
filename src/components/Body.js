@@ -40,7 +40,7 @@ const Body = () => {
     // we get the Swiggy API data in json format
     console.log("json: " + JSON.stringify(json));
     //Optional Chaining
-     const restaurantAll = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants
+     const restaurantAll = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
     console.log("restaurants: " + restaurantAll)
     // console.log(JSON.stringify(restaurantAll));
 
@@ -84,7 +84,8 @@ const Body = () => {
             setSearchText(e.target.value);
           }}
         />
-        <button
+        <button 
+          data-testid="search-btn"
           className="p-2 m-2 bg-purple-900 hover:bg-gray-500 text-white rounded-md"
           onClick={() => {
             const filteredRestaurants = filterData(searchText, restaurants, ['info', 'name']);
@@ -111,7 +112,7 @@ const Body = () => {
           }
         }></input>
       </div>
-      <div className="flex flex-wrap ">
+      <div className="flex flex-wrap " data-testid="res-list">
         {restaurants.map((restaurant) => {
           return (
             <Link to={"/restaurant/" +restaurant?.info?.id} key={restaurant?.info?.id}>

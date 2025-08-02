@@ -55,13 +55,13 @@ const Header = () => {
           <div className="w-full sm:w-auto">
             <ul className="flex flex-wrap items-center justify-center sm:justify-end py-2 sm:py-4">
               <li className="px-2 py-1">
-                <a href="/" onClick={(e) => {
+                <a href="/restaurants" onClick={(e) => {
                   // Force a full page reload when already on home
-                  if (window.location.pathname === '/') {
+                  if (window.location.pathname === '/restaurants') {
                     e.preventDefault();
-                    window.location.href = '/';
+                    window.location.href = '/restaurants';
                   }
-                }}>Home</a>
+                }}>Restaurants</a>
               </li>
               <li className="px-2 py-1">
                 <Link to="/about">About</Link>

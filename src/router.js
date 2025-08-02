@@ -19,6 +19,7 @@ import { ROLES } from "./constants";
 import Error from "./components/Error";
 import UserContext from "./context/UserContext";
 import { Provider } from "react-redux";
+import LandingPage from "./components/LandingPage";
 import store from "./utils/store";
 
 const Instamart = lazy(() => import("./components/Instamart"));
@@ -73,6 +74,10 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
+        element: <LandingPage />,
+      },
+      {
+        path: "/restaurants",
         element: <Body />,
       },
       {

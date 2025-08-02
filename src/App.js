@@ -8,6 +8,7 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
 import { IMG_CDN_URL } from "./constants";
+import LandingPage from "./components/LandingPage.js";
 
 /**
  *  Header

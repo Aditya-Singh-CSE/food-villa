@@ -52,7 +52,7 @@ const Header = () => {
   console.log("Header is Rendered");
   return (
     <div className="w-full bg-pink-50 shadow-lg sm:bg-blue-50">
-      <div className="max-w-7xl mx-auto px-2 sm:px-4">
+      <div className="max mx-auto px-2 sm:px-4">
         <div className="flex flex-col sm:flex-row justify-between items-center">
           <Title />
           <div className="w-full sm:w-auto">
@@ -111,14 +111,14 @@ const Header = () => {
                     className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
                     onClick={() => handleAuthClick('login')}
                   >
-                    Login / Sign Up
+                    Login 
                   </span>
                 )}
               </li>
               {!isAuthenticated && (
                 <li className="px-2 py-1">
                   <span 
-                    className="px-3 py-1 rounded cursor-pointer bg-pink-600 text-white hover:bg-pink-700"
+                    className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
                     onClick={() => handleAuthClick('signup')}
                   >
                     Sign up

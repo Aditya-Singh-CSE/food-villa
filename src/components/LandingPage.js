@@ -52,10 +52,10 @@ const LandingPage = () => {
               <FiUser className="text-xl" />
               Signup as Merchant
             </Link>
-            <button className="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-4 rounded-full font-bold shadow-lg ring-1 ring-pink-200 hover:ring-pink-400 transition">
+            {/* <button className="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-4 rounded-full font-bold shadow-lg ring-1 ring-pink-200 hover:ring-pink-400 transition">
               <FiPlay className="text-xl" />
               Watch Demo
-            </button>
+            </button> */}
           </div>
         </div>
       </header>

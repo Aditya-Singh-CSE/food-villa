@@ -7,7 +7,13 @@ import { useSelector } from "react-redux";
 //import "./Header.css";
 
 const Title = () => (
-  <a href="/">
+  <a href="/" className="block" onClick={(e) => {
+    // Force a full page reload when clicking the logo
+    if (window.location.pathname === '/') {
+      e.preventDefault();
+      window.location.href = '/';
+    }
+  }}>
     <img
       data-testid="logo"
       className="h-28 p-2"
@@ -47,7 +53,13 @@ const Header = () => {
           <div className="w-full sm:w-auto">
             <ul className="flex flex-wrap items-center justify-center sm:justify-end py-2 sm:py-4">
               <li className="px-2 py-1">
-                <Link to="/">Home</Link>
+                <a href="/" onClick={(e) => {
+                  // Force a full page reload when already on home
+                  if (window.location.pathname === '/') {
+                    e.preventDefault();
+                    window.location.href = '/';
+                  }
+                }}>Home</a>
               </li>
               <li className="px-2 py-1">
                 <Link to="/about">About</Link>

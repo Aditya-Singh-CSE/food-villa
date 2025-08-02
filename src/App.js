@@ -3,9 +3,10 @@ import "./index.css";
 import Header from "./components/Header";
 import Body from "./components/Body";
 import Footer from "./components/Footer";
-import { Outlet } from 'react-router-dom';
+import { Outlet, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import About from "./components/About";
 import Contact from "./components/Contact";
+import RestaurantMenu from "./components/RestaurantMenu";
 import { IMG_CDN_URL } from "./constants";
 
 /**
@@ -29,15 +30,45 @@ import { IMG_CDN_URL } from "./constants";
  *
  */
 
-function App() {
-  console.log("App.js is called")
+const AppLayout = () => {
   return (
-    <div>
+    <div className="min-h-screen flex flex-col">
       <Header />
-      <Body />
-      <Footer/>
+      <div className="flex-1">
+        <Outlet />
+      </div>
+      <Footer />
     </div>
   );
+};
+
+const appRouter = createBrowserRouter([
+  {
+    path: "/",
+    element: <AppLayout />,
+    children: [
+      {
+        path: "/",
+        element: <Body />,
+      },
+      {
+        path: "/about",
+        element: <About />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/restaurant/:resId",
+        element: <RestaurantMenu />,
+      },
+    ],
+  },
+]);
+
+function App() {
+  return <RouterProvider router={appRouter} />;
 }
 
 export default App;

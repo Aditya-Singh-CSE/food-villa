@@ -10,7 +10,8 @@ import Login from "./components/Login";
 import Shimmer from "./components/Shimmer";
 import Cart from "./components/Cart";
 
-import RestrauntMenu from "./components/RestrauntMenu";
+// import RestrauntMenu from "./components/RestrauntMenu";
+import RestaurantMenu from "./components/RestaurantMenu";
 //import Instamart from './components/Instamart';
 import Profile from "./components/Profile";
 import RequireAuth from "./common/components/RequireAuth";
@@ -90,7 +91,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/restaurant/:id",
-        element: <RestrauntMenu />,
+        element: <RestaurantMenu />,
       },
       {
         path: "/cart",

@@ -9,6 +9,8 @@ import Contact from "./components/Contact";
 import Login from "./components/Login";
 import Shimmer from "./components/Shimmer";
 import Cart from "./components/Cart";
+import MerchantPage from "./components/merchants/MerchantPage";
+import MerchantSignup from "./components/merchants/MerchantSignup";
 
 // import RestrauntMenu from "./components/RestrauntMenu";
 import RestaurantMenu from "./components/RestaurantMenu";
@@ -81,6 +83,10 @@ const router = createBrowserRouter([
         element: <Body />,
       },
       {
+        path: "/merchant-signup",
+        element: <MerchantSignup />,
+      },
+      {
         path: "/about", //  parentPath/{path} =>localhost:3000/about
         element: <About />,
         children: [
@@ -108,6 +114,11 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+    errorElement: <Error />,
+  },
+  {
+    path: "/merchants",
+    element: <MerchantPage />,
     errorElement: <Error />,
   },
   {

@@ -8,7 +8,8 @@ import About from "./components/About";
 import Contact from "./components/Contact";
 import RestaurantMenu from "./components/RestaurantMenu";
 import { IMG_CDN_URL } from "./constants";
-import LandingPage from "./components/LandingPage.js";
+import LandingPage from "./components/LandingPage";
+import MerchantPage from "./components/merchants/MerchantPage";
 
 /**
  *  Header
@@ -46,23 +47,31 @@ const AppLayout = () => {
 const appRouter = createBrowserRouter([
   {
     path: "/",
+    element: <LandingPage />,
+  },
+  {
+    path: "/app",
     element: <AppLayout />,
     children: [
       {
-        path: "/",
+        path: "",
         element: <Body />,
       },
       {
-        path: "/about",
+        path: "about",
         element: <About />,
       },
       {
-        path: "/contact",
+        path: "contact",
         element: <Contact />,
       },
       {
-        path: "/restaurant/:resId",
+        path: "restaurant/:resId",
         element: <RestaurantMenu />,
+      },
+      {
+        path: "merchants",
+        element: <MerchantPage />,
       },
     ],
   },

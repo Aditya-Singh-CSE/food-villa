@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { FiSearch, FiShoppingCart, FiUser, FiPlay } from "react-icons/fi";
-import Logo from "../../src/components/assets/image/Logo.png"
+import Logo from "../../src/components/assets/image/Logo.png";
 
 const LandingPage = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -13,7 +13,7 @@ const LandingPage = () => {
   }, []);
 
   return (
-    <div className="bg-gradient-to-br from-pink-50 via-white to-orange-50">
+    <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-orange-50">
       {/* Hero */}
       <header className="relative min-h-screen flex items-center justify-center overflow-hidden">
         <div
@@ -44,6 +44,13 @@ const LandingPage = () => {
             >
               <FiSearch className="text-xl group-hover:rotate-90 transition-transform" />
               Explore Restaurants
+            </Link>
+            <Link
+              to="/merchant-signup"
+              className="inline-flex items-center gap-2 bg-orange-500 text-white px-8 py-4 rounded-full font-bold shadow-lg hover:bg-orange-600 transition-all hover:scale-105"
+            >
+              <FiUser className="text-xl" />
+              Signup as Merchant
             </Link>
             <button className="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-4 rounded-full font-bold shadow-lg ring-1 ring-pink-200 hover:ring-pink-400 transition">
               <FiPlay className="text-xl" />

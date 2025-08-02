@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import Logo from "./assets/image/Logo.png";
+import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Logo from "./assets/image/Logo.png";
 import AuthModal from "./auth/AuthModal";
 import { useAuth } from "../context/AuthContext";
 //import "./Header.css";
@@ -27,6 +27,9 @@ const Title = () => (
 // SPA Single Page Application ??
 // Client Side Routing
 const Header = () => {
+  const location = useLocation();
+  const isLandingPage = location.pathname === '/';
+  const showMerchants = isLandingPage;
     const [showAuthModal, setShowAuthModal] = useState(false);
   const [authType, setAuthType] = useState('login'); // 'login' or 'signup'
   
@@ -63,6 +66,17 @@ const Header = () => {
                   }
                 }}>Restaurants</a>
               </li>
+              {showMerchants && (
+                <li className="px-2 py-1">
+                  <a href="/merchants" onClick={(e) => {
+                    // Force a full page reload when already on merchants
+                    if (window.location.pathname === '/merchants') {
+                      e.preventDefault();
+                      window.location.href = '/merchants';
+                    }
+                  }}>Merchants</a>
+                </li>
+              )}
               <li className="px-2 py-1">
                 <Link to="/about">About</Link>
               </li>

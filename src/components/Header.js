@@ -1,9 +1,10 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Logo from "./assets/image/Logo.png";
 import useOnline from "../hooks/useOnline";
 import UserContext from "../context/UserContext";
 import { useSelector } from "react-redux";
+import AuthModal from "./auth/AuthModal";
 //import "./Header.css";
 
 const Title = () => (
@@ -28,21 +29,22 @@ const Title = () => (
 // Client Side Routing
 const Header = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authType, setAuthType] = useState('login'); // 'login' or 'signup'
 
   const isOnline = useOnline();
-
   const { user } = useContext(UserContext);
-
-  //Subscrbe the store
   const cartItems = useSelector((store) => store.cart.items);
 
-  // Log the length of cartItems
-  console.log("Length of cartItems:", cartItems.length); // Added console log
-  // console.log(cartItems)
+  const handleAuthSuccess = () => {
+    setIsLoggedIn(true);
+    setShowAuthModal(false);
+  };
 
-  useEffect(() => {
-    console.log("useEffect");
-  }, []);
+  const handleAuthClick = (type = 'login') => {
+    setAuthType(type);
+    setShowAuthModal(true);
+  };
 
   console.log("Header is Rendered");
   return (
@@ -64,38 +66,58 @@ const Header = () => {
               <li className="px-2 py-1">
                 <Link to="/about">About</Link>
               </li>
-              <li className="px-2 py-1">
+              {/* <li className="px-2 py-1">
                 <Link to="/contact">Contact</Link>
               </li>
               <li className="px-2 py-1">
                 <Link to="/instamart">Instamart</Link>
-              </li>
+              </li> */}
               <li className="px-2 py-1">
-                <Link to="/cart" data-testid="cart">Cart - {cartItems.length} items</Link>
+                <Link to="/cart" data-testid="cart">Cart - {cartItems.length}</Link>
               </li>
-              <li className="px-2 py-1">
+              {/* <li className="px-2 py-1">
                 <span data-testid="online-status">{isOnline ? "🟢" : "🔴"}</span>
-              </li>
-              <li className="px-2 py-1">
+              </li> */}
+              {/* <li className="px-2 py-1">
                 <span className="font-bold text-red-900">{user.name}</span>
-              </li>
+              </li> */}
               <li className="px-2 py-1">
                 {isLoggedIn ? (
-                  <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded" 
-                          onClick={() => setIsLoggedIn(false)}>
+                  <span 
+                    className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
+                    onClick={() => setIsLoggedIn(false)}
+                  >
                     Logout
-                  </button>
+                  </span>
                 ) : (
-                  <button className="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded"
-                          onClick={() => setIsLoggedIn(true)}>
+                  <span 
+                    className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
+                    onClick={() => handleAuthClick('login')}
+                  >
                     Login
-                  </button>
+                  </span>
                 )}
               </li>
+              {!isLoggedIn && (
+                <li className="px-2 py-1">
+                  <span 
+                    className="px-3 py-1 rounded cursor-pointer bg-pink-600 text-white hover:bg-pink-700"
+                    onClick={() => handleAuthClick('signup')}
+                  >
+                    Sign up
+                  </span>
+                </li>
+              )}
             </ul>
           </div>
         </div>
       </div>
+      <AuthModal 
+        isOpen={showAuthModal}
+        onClose={() => setShowAuthModal(false)}
+        type={authType}
+        onSuccess={handleAuthSuccess}
+      />
     </div>
   );
 };

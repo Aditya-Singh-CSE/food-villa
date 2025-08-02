@@ -4,22 +4,20 @@ import './index.css';
 import { RouterProvider } from 'react-router-dom';
 import reportWebVitals from './reportWebVitals';
 import router from './router';
+import { AuthProvider } from './context/AuthContext';
+import { Provider } from 'react-redux';
+import store from './utils/store';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-//React.StrictMode is a development-only feature in React that helps identify potential problems in your application.
-//One of its behaviors is to intentionally double-invoke certain lifecycle methods, including the render method, for components inside it.
-//This double rendering helps detect side effects that shouldn't be in the render phase and makes them more noticeable.
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
 
 root.render(
-  <>
-  <RouterProvider router={router}/> 
-   {/* <App/> */}
-  </>
+  <React.StrictMode>
+    <Provider store={store}>
+      <AuthProvider>
+        <RouterProvider router={router} />
+      </AuthProvider>
+    </Provider>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import { FiMail } from 'react-icons/fi';
 import Modal from '../common/Modal';
+import { useAuth } from '../../context/AuthContext';
 
 const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVerification = true }) => {
   const [formData, setFormData] = useState({
@@ -39,6 +40,8 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
     }
   }, [isOpen, type]);
 
+  const { login } = useAuth();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -55,12 +58,73 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
     
     // For login or after OTP verification
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
-      onSuccess();
-      onClose();
+    
+    try {
+      // Prepare the request payload
+      const payload = {
+        commandName: 'login',
+        commandPayload: {
+          email: formData.email,
+          password: formData.password,
+          clientId: 'note-app'
+        }
+      };
+
+      // Make the API call
+      const response = await fetch('https://bright-coyote-385507.de.r.appspot.com/sendmessage', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const responseData = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(responseData.message || 'Login failed');
+      }
+
+      // Login using AuthContext which will handle token storage
+      if (responseData.token) {
+        // Extract user role from the response
+        // This assumes your API returns the role in the response
+        // If not, you'll need to adjust this part
+        const userRole = responseData.role || 'user'; // Default to 'user' if role not provided
+        
+        const result = await login({
+          token: responseData.token,
+          email: formData.email,
+          role: userRole
+        });
+        
+        if (result.success) {
+          if (onSuccess) {
+            onSuccess(responseData);
+          }
+          
+          // Redirect based on role
+          if (userRole === 'student') {
+            // Redirect to student dashboard
+            window.location.href = '/dashboard';
+          } else {
+            // Redirect to home or another appropriate page for non-student users
+            window.location.href = '/';
+          }
+          
+          onClose();
+        } else {
+          throw new Error(result.error || 'Authentication failed');
+        }
+      } else {
+        throw new Error('No token received from server');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert(error.message || 'An error occurred during login');
+    } finally {
       setIsLoading(false);
-    }, 1000);
+    }
   };
 
   const handleGoogleAuth = async () => {

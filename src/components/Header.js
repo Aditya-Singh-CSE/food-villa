@@ -1,10 +1,9 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import Logo from "./assets/image/Logo.png";
-import useOnline from "../hooks/useOnline";
-import UserContext from "../context/UserContext";
 import { useSelector } from "react-redux";
 import AuthModal from "./auth/AuthModal";
+import { useAuth } from "../context/AuthContext";
 //import "./Header.css";
 
 const Title = () => (
@@ -28,22 +27,23 @@ const Title = () => (
 // SPA Single Page Application ??
 // Client Side Routing
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [showAuthModal, setShowAuthModal] = useState(false);
+    const [showAuthModal, setShowAuthModal] = useState(false);
   const [authType, setAuthType] = useState('login'); // 'login' or 'signup'
-
-  const isOnline = useOnline();
-  const { user } = useContext(UserContext);
+  
+  const { isAuthenticated, user, logout } = useAuth();
   const cartItems = useSelector((store) => store.cart.items);
 
   const handleAuthSuccess = () => {
-    setIsLoggedIn(true);
     setShowAuthModal(false);
   };
 
   const handleAuthClick = (type = 'login') => {
     setAuthType(type);
     setShowAuthModal(true);
+  };
+  
+  const handleLogout = () => {
+    logout();
   };
 
   console.log("Header is Rendered");
@@ -82,23 +82,26 @@ const Header = () => {
                 <span className="font-bold text-red-900">{user.name}</span>
               </li> */}
               <li className="px-2 py-1">
-                {isLoggedIn ? (
-                  <span 
-                    className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
-                    onClick={() => setIsLoggedIn(false)}
-                  >
-                    Logout
-                  </span>
+                {isAuthenticated ? (
+                  <>
+                    <span className="mr-2">Welcome, {user?.email}</span>
+                    <span 
+                      className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </span>
+                  </>
                 ) : (
                   <span 
                     className="px-3 py-1 rounded cursor-pointer hover:bg-gray-100"
                     onClick={() => handleAuthClick('login')}
                   >
-                    Login
+                    Login / Sign Up
                   </span>
                 )}
               </li>
-              {!isLoggedIn && (
+              {!isAuthenticated && (
                 <li className="px-2 py-1">
                   <span 
                     className="px-3 py-1 rounded cursor-pointer bg-pink-600 text-white hover:bg-pink-700"

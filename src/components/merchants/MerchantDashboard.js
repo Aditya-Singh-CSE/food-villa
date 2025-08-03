@@ -11,6 +11,7 @@ import Settings from './merchant/Settings';
 
 function MerchantDashboard() {
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getPageTitle = () => {
     switch (activeTab) {
@@ -44,12 +45,34 @@ function MerchantDashboard() {
     }
   };
 
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+    // You can implement search logic here based on the active tab
+    console.log('Searching for:', query);
+  };
+  const handleProfileClick = () => {
+    setActiveTab('profile');
+  };
+  const handleSettingsClick = () => {
+    setActiveTab('settings');
+  };
+  const handleNotificationClick = () => {
+    // You can implement notification logic here
+    console.log('Notifications clicked');
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <div className="ml-64">
-        <Header title={getPageTitle()} />
+      <Header 
+          title={getPageTitle()} 
+          onSearch={handleSearch}
+          onProfileClick={handleProfileClick}
+          onSettingsClick={handleSettingsClick}
+          onNotificationClick={handleNotificationClick}
+        />
         
         <main className="p-6">
           {renderContent()}

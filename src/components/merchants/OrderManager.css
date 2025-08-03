@@ -1,0 +1,121 @@
+.order-manager {
+  max-width: 1000px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 40px 36px 36px 36px;
+  border-radius: 22px;
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.10);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+.order-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: flex-start;
+}
+.order-card {
+  background: #f9fbe7;
+  border-radius: 14px;
+  box-shadow: 0 4px 18px rgba(76, 175, 80, 0.13);
+  padding: 24px 20px 18px 20px;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0;
+  border-left: 7px solid #ffd180;
+  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.order-card:hover {
+  box-shadow: 0 8px 32px rgba(76, 175, 80, 0.18);
+  transform: translateY(-3px) scale(1.03);
+}
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+.order-id {
+  font-weight: bold;
+  color: #ff7043;
+  letter-spacing: 0.5px;
+  font-size: 1.08rem;
+}
+.status-badge {
+  padding: 5px 16px;
+  border-radius: 14px;
+  font-size: 1rem;
+  text-transform: capitalize;
+  color: #fff;
+  background: #bdbdbd;
+  font-weight: 600;
+  box-shadow: 0 1px 6px rgba(76, 175, 80, 0.10);
+  letter-spacing: 0.5px;
+}
+.status-badge.pending { background: #ffb300; }
+.status-badge.accepted { background: #42a5f5; }
+.status-badge.preparing { background: #ffa726; }
+.status-badge.ready { background: #43a047; }
+.status-badge.rejected { background: #e53935; }
+.order-details {
+  font-size: 1.08rem;
+  margin-bottom: 18px;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.order-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.order-actions button {
+  padding: 9px 24px;
+  border: none;
+  border-radius: 7px;
+  background: #ffd180;
+  color: #ff7043;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  box-shadow: 0 1px 6px rgba(255, 112, 67, 0.06);
+  font-size: 1rem;
+}
+.order-actions button.danger {
+  background: #ff7043;
+  color: #fff;
+}
+.ready-msg {
+  color: #388e3c;
+  font-weight: bold;
+  font-size: 1.08rem;
+  letter-spacing: 0.5px;
+}
+.rejected-msg {
+  color: #e53935;
+  font-weight: bold;
+  font-size: 1.08rem;
+  letter-spacing: 0.5px;
+}
+@media (max-width: 900px) {
+  .order-list {
+    gap: 16px;
+  }
+  .order-card {
+    width: 100%;
+    min-width: 200px;
+  }
+}
+@media (max-width: 600px) {
+  .order-manager {
+    padding: 8px 2px 2px 2px;
+  }
+  .order-card {
+    padding: 12px 4px 8px 4px;
+  }
+}

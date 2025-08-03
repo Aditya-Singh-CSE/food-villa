@@ -1,0 +1,44 @@
+.merchant-profile {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 32px;
+  border-radius: 18px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+}
+.profile-view {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: flex-start;
+  margin-top: 24px;
+}
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+.profile-form input {
+  padding: 10px;
+  border: 1px solid #eee;
+  border-radius: 6px;
+  font-size: 1rem;
+  background: #fafafa;
+}
+.profile-form button,
+.profile-view button {
+  padding: 10px 24px;
+  border: none;
+  background: #ff7043;
+  color: #fff;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-right: 8px;
+}
+.profile-form button[type="button"] {
+  background: #bdbdbd;
+  color: #fff;
+}

@@ -1,3 +1,4 @@
+import React from "react";
 import { createBrowserRouter, Outlet } from "react-router-dom";
 import { lazy, Suspense, useState, useEffect } from "react";
 //import { AppLayout } from './App';
@@ -11,6 +12,7 @@ import Shimmer from "./components/Shimmer";
 import Cart from "./components/Cart";
 import MerchantPage from "./components/merchants/MerchantPage";
 import MerchantSignup from "./components/merchants/MerchantSignup";
+import MerchantDashboard from "./components/merchants/MerchantDashboard";
 
 // import RestrauntMenu from "./components/RestrauntMenu";
 import RestaurantMenu from "./components/RestaurantMenu";
@@ -121,6 +123,20 @@ const router = createBrowserRouter([
     element: <MerchantPage />,
     errorElement: <Error />,
   },
+  {
+    path: "/merchant/dashboard",
+    element: <MerchantDashboard />,
+    errorElement: <Error />,
+  },
+  // {
+  //   path: "/merchant/dashboard",
+  //   element: <RequireAuth allowedRoles={[ROLES.Merchant]}>
+  //     <Suspense fallback={<Shimmer />}>
+  //       {React.createElement(require("./components/merchants/MerchantDashboard").default)}
+  //     </Suspense>
+  //   </RequireAuth>,
+  //   errorElement: <Error />,
+  // },
   {
     path: "/instamart",
     element: (

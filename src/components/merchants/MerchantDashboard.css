@@ -1,0 +1,98 @@
+.merchant-dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #fffbe6 60%, #ffe0b2 100%);
+}
+
+.merchant-sidebar {
+  width: 240px;
+  background: linear-gradient(135deg, #ff7043 60%, #ffb300 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 0 32px 0;
+  box-shadow: 2px 0 16px rgba(0,0,0,0.06);
+  border-radius: 0 36px 36px 0;
+  z-index: 2;
+}
+
+.merchant-logo {
+  font-size: 2.3rem;
+  font-weight: bold;
+  margin-bottom: 56px;
+  letter-spacing: 2.5px;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.merchant-sidebar nav ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.merchant-sidebar nav ul li {
+  padding: 18px 0;
+  text-align: center;
+  cursor: pointer;
+  font-size: 1.18rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  border-radius: 10px;
+  margin: 10px 20px;
+  box-shadow: 0 2px 6px rgba(255, 255, 255, 0.08);
+  letter-spacing: 0.5px;
+  font-weight: 500;
+}
+
+.merchant-sidebar nav ul li.active,
+.merchant-sidebar nav ul li:hover {
+  background: #fffde7;
+  color: #ff7043;
+  font-weight: bold;
+  box-shadow: 0 4px 16px rgba(255, 112, 67, 0.13);
+}
+
+.merchant-main-content {
+  flex: 1;
+  padding: 56px 48px 48px 48px;
+  background: #fff;
+  border-radius: 40px 0 0 40px;
+  margin: 32px 0 32px 0;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.09);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-height: 80vh;
+}
+
+@media (max-width: 1100px) {
+  .merchant-main-content {
+    padding: 32px 10px;
+    border-radius: 28px 0 0 28px;
+    margin: 16px 0 16px 0;
+  }
+  .merchant-sidebar {
+    width: 100px;
+    padding: 20px 0 16px 0;
+    border-radius: 0 18px 18px 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .merchant-dashboard-container {
+    flex-direction: column;
+  }
+  .merchant-sidebar {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 16px 0;
+    border-radius: 0 0 24px 24px;
+  }
+  .merchant-main-content {
+    padding: 18px 4px;
+    border-radius: 0 0 24px 24px;
+    margin: 0;
+  }
+}

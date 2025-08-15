@@ -4,6 +4,7 @@ import { FiMail } from 'react-icons/fi';
 import { httpPost } from '../../services/util';
 import Modal from '../common/Modal';
 import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVerification = true }) => {
   const [formData, setFormData] = useState({
@@ -42,6 +43,7 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
   }, [isOpen, type]);
 
   const { login } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -78,25 +80,38 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
             },
           }
         : {
-            commandName: "login",
-            commandPayload: {
+            command: "login_entity",
+            data: {
               email: formData.email,
               password: formData.password,
-              clientId: "note-app",
+              clientId: "foodVilla",
             },
           };
   
       const data = await httpPost("", payload);
+
   
       const result = await login({
-        token: data.token,
+        token: data?.data?.token,
         email: formData.email,
-        role: data.role || "user",
+        role: data?.data?.user?.role || "anonymous",
       });
   
       if (result.success) {
         onSuccess?.(data);
         onClose();
+
+        // console.log("result:",result)
+        // console.log("data:",data)
+
+        const role = data?.data?.user?.role
+        console.log("Current Role:",role)
+        if (role === "merchant"){
+          console.log("Redirect to Merchant dashboard")
+          navigate('/merchant/dashboard')
+        } else if (role === "customer"){
+          console.log("Redirect to Customer dashboard")
+        }
       }
     } catch (err) {
       alert(err.message || "Authentication failed");

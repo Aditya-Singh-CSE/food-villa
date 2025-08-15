@@ -1,5 +1,6 @@
 import React from 'react';
 import { Bell, Search, User, Settings, LogOut, ChevronDown } from 'lucide-react';
+import { useAuth } from '../../../context/AuthContext';
 
 const Header = ({
   title,
@@ -8,6 +9,9 @@ const Header = ({
   onSettingsClick,
   onNotificationClick
 }) => {
+
+    const { isAuthenticated, user, logout } = useAuth();
+  // const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = React.useState('');
   const [showProfileDropdown, setShowProfileDropdown] = React.useState(false);
   const [showNotifications, setShowNotifications] = React.useState(false);
@@ -17,6 +21,9 @@ const Header = ({
     { id: 3, title: 'New Review', message: 'You received a 5-star review', time: '10 min ago', unread: false },
     { id: 4, title: 'Payment Received', message: 'Payment of $45.50 received', time: '1 hour ago', unread: false }
   ]);
+
+  console.log("merchant header rendered")
+  console.log("useauth data:",user)
   const handleSearch = (e) => {
     e.preventDefault();
     if (onSearch && searchQuery.trim()) {
@@ -114,8 +121,8 @@ const Header = ({
               <User className="w-6 h-6 text-white" />
             </div>
             <div className="hidden md:block">
-              <p className="text-sm font-medium text-gray-800">John's Kitchen</p>
-              <p className="text-xs text-gray-500">Premium Plan</p>
+              <p className="text-sm font-medium text-gray-800">{user?.email || 'Loading...'}</p>
+              <p className="text-xs text-gray-500">{user?.role || 'Basic Plan'}</p>
             </div>
               <ChevronDown className="w-4 h-4 text-gray-500" />
             </button>
@@ -128,10 +135,10 @@ const Header = ({
                       <User className="w-6 h-6 text-white" />
                     </div>
                     <div>
-                      <p className="font-medium text-gray-800">John's Kitchen</p>
-                      <p className="text-sm text-gray-500">john@johnskitchen.com</p>
+                      <p className="font-medium text-gray-800">{user?.email || 'Loading...'}</p>
+                      <p className="text-sm text-gray-500">{user?.role || 'User'}</p>
                       <span className="inline-block px-2 py-1 bg-pink-100 text-pink-600 text-xs rounded-full mt-1">
-                        Premium Plan
+                        {user?.role || 'Basic Plan'}
                       </span>
                     </div>
                   </div>
@@ -158,7 +165,9 @@ const Header = ({
                     Settings
                   </button>
                   <hr className="my-2" />
-                  <button className="w-full flex items-center px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors">
+                  <button 
+                    onClick={logout}
+                    className="w-full flex items-center px-4 py-3 text-left text-red-600 hover:bg-red-50 transition-colors">
                     <LogOut className="w-5 h-5 mr-3" />
                     Sign Out
                   </button>

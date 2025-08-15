@@ -11,6 +11,8 @@ export const MENU_ITEM_TYPE_KEY = "type.googleapis.com/swiggy.presentation.food.
 
 export const ROLES = {
   User: "user",
+  Customer: "customer",
+  Merchant: "merchant",
   Issuer: "issuer",
   Editor: "editor",
   Admin: "admin",

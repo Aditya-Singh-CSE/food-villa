@@ -43,6 +43,7 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (authData) => {
+     console.log("authData:",authData)
     try {
       if (authData?.token) {
         setAuthToken(authData.token);
@@ -61,7 +62,10 @@ export const AuthProvider = ({ children }) => {
         setCurrentUserRole(role);
         setIsAuthenticated(true);
       }
-      return { success: true };
+      return { 
+        success: true ,
+        role: currentUserRole
+      };
     } catch (error) {
       console.error('Login error:', error);
       return { success: false, error: error.message };

@@ -57,9 +57,9 @@ const MerchantSignup = () => {
     setError("");
     try {
       // 1. Verify OTP
-      await httpPost("/auth/command", {
-        commandName: "verify_otp",
-        commandPayload: {
+      await httpPost("", {
+        command: "verify_otp",
+        data: {
           email: form.email,
           otp,
           clientId: "merchant-app",
@@ -67,7 +67,7 @@ const MerchantSignup = () => {
         },
       });
       // 2. Register merchant
-      await httpPost("/auth/command", {
+      await httpPost("", {
         commandName: "register_merchant",
         commandPayload: {
           country: form.country,
@@ -86,6 +86,7 @@ const MerchantSignup = () => {
       navigate('/merchant/dashboard');
     } catch (err) {
       setStep(3);
+      console.log("OTP verification failed")
       setError(err.message || "OTP verification or signup failed");
       navigate('/merchant/dashboard');
     } finally {

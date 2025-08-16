@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { httpPost } from '../../services/util';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 const MerchantSignup = () => {
   const [step, setStep] = useState(1); // 1: form, 2: otp, 3: success
@@ -21,6 +22,8 @@ const MerchantSignup = () => {
   const [sentOtp, setSentOtp] = useState(null);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+
+   const { login } = useAuth();
 
   // Send OTP to merchant
   const handleSendOtp = async (e) => {
@@ -67,23 +70,38 @@ const MerchantSignup = () => {
         },
       });
       // 2. Register merchant
-      await httpPost("", {
-        commandName: "register_merchant",
-        commandPayload: {
-          country: form.country,
-          address: form.address,
-          city: form.city,
-          merchantType: form.merchantType,
-          contactPersonName: form.contactPersonName,
-          merchantName: form.merchantName,
-          comments: form.comments,
-          phone: form.phone,
+      const data = await httpPost("", {
+        command: "register_entity",
+        data: {
+          // country: form.country,
+          // address: form.address,
+          // city: form.city,
+          // merchantType: form.merchantType,
+          // contactPersonName: form.contactPersonName,
+          name: form.merchantName,
+          // comments: form.comments,
+          // phone: form.phone,
           email: form.email,
           password: form.password,
           role: "merchant",
         },
       });
-      navigate('/merchant/dashboard');
+
+        const result = await login({
+        token: data?.data?.token,
+        email: data?.data?.user?.email,
+        role: data?.data?.user?.role || "anonymous",
+      });
+
+       if (result.success) {
+        console.log("Signup successful")
+         const role = data?.data?.user?.role
+        console.log("Current Role:",role)
+        if (role === "merchant"){
+          console.log("Redirect to Merchant dashboard")
+          navigate('/merchant/dashboard')
+        }
+       } 
     } catch (err) {
       setStep(3);
       console.log("OTP verification failed")
@@ -136,7 +154,7 @@ const MerchantSignup = () => {
                 />
               </div>
               {/* Row 2: Merchant City | Merchant Type */}
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Merchant City</label>
                 <input
                   type="text"
@@ -147,7 +165,7 @@ const MerchantSignup = () => {
                   required
                   className="px-4 py-2 border rounded-lg"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Merchant Type</label>
                 <select
@@ -166,7 +184,7 @@ const MerchantSignup = () => {
                 </select>
               </div>
               {/* Row 3: Contact Person Name | Merchant Name */}
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Contact Person Name*</label>
                 <input
                   type="text"
@@ -177,7 +195,7 @@ const MerchantSignup = () => {
                   required
                   className="px-4 py-2 border rounded-lg"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Merchant Name*</label>
                 <input
@@ -191,7 +209,7 @@ const MerchantSignup = () => {
                 />
               </div>
               {/* Row 4: Contact Phone | Email */}
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Contact Phone*</label>
                 <input
                   type="tel"
@@ -202,7 +220,7 @@ const MerchantSignup = () => {
                   required
                   className="px-4 py-2 border rounded-lg"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Email*</label>
                 <input
@@ -216,7 +234,7 @@ const MerchantSignup = () => {
                 />
               </div>
               {/* Row 5: Comments | Apply Now button */}
-              <div className="flex flex-col">
+              {/* <div className="flex flex-col">
                 <label className="mb-1 font-medium text-gray-700">Comments</label>
                 <input
                   type="text"
@@ -226,7 +244,7 @@ const MerchantSignup = () => {
                   onChange={handleChange}
                   className="px-4 py-2 border rounded-lg"
                 />
-              </div>
+              </div> */}
               <div className="flex flex-col justify-end">
                 <label className="mb-1 font-medium text-gray-700 invisible">Apply Now</label>
                 <input

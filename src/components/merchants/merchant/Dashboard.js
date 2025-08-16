@@ -1,5 +1,5 @@
 import React from 'react';
-import { TrendingUp, ShoppingBag, DollarSign, Users, Star, Clock } from 'lucide-react';
+import { TrendingUp, ShoppingBag, IndianRupee, Users, Star, Clock } from 'lucide-react';
 
 export default function Dashboard() {
   const stats = [
@@ -13,10 +13,10 @@ export default function Dashboard() {
     },
     {
       title: 'Revenue',
-      value: '$3,249',
+      value: '₹3,249',
       change: '+8%',
       trend: 'up',
-      icon: DollarSign,
+      icon: IndianRupee,
       color: 'from-orange-500 to-orange-600'
     },
     {
@@ -38,10 +38,10 @@ export default function Dashboard() {
   ];
 
   const recentOrders = [
-    { id: '#1234', customer: 'Alice Johnson', items: 'Chicken Biryani, Naan', amount: '$24.50', status: 'pending', time: '2 min ago' },
-    { id: '#1235', customer: 'Bob Smith', items: 'Margherita Pizza', amount: '$18.00', status: 'preparing', time: '5 min ago' },
-    { id: '#1236', customer: 'Carol Davis', items: 'Sushi Combo', amount: '$32.00', status: 'ready', time: '8 min ago' },
-    { id: '#1237', customer: 'David Wilson', items: 'Pad Thai, Spring Rolls', amount: '$26.75', status: 'delivered', time: '15 min ago' }
+    { id: '#1234', customer: 'Alice Johnson', items: 'Chicken Biryani, Naan', amount: '₹24.50', status: 'pending', time: '2 min ago' },
+    { id: '#1235', customer: 'Bob Smith', items: 'Margherita Pizza', amount: '₹18.00', status: 'preparing', time: '5 min ago' },
+    { id: '#1236', customer: 'Carol Davis', items: 'Sushi Combo', amount: '₹32.00', status: 'ready', time: '8 min ago' },
+    { id: '#1237', customer: 'David Wilson', items: 'Pad Thai, Spring Rolls', amount: '₹26.75', status: 'delivered', time: '15 min ago' }
   ];
 
   const getStatusColor = (status) => {

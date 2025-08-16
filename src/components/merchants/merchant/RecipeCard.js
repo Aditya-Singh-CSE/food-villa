@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit2, Trash2, Star, Clock, DollarSign, Eye, EyeOff } from 'lucide-react';
+import { Edit2, Trash2, Star, Clock, IndianRupee, Eye, EyeOff } from 'lucide-react';
 
 const RecipeCard = ({ recipe, onEdit, onDelete, onToggleAvailability }) => {
   const [showIngredients, setShowIngredients] = useState(false);
@@ -46,7 +46,7 @@ const RecipeCard = ({ recipe, onEdit, onDelete, onToggleAvailability }) => {
             <span>{recipe.prepTime} min</span>
           </div>
           <div className="flex items-center">
-            <DollarSign className="w-4 h-4 mr-1" />
+            <IndianRupee className="w-4 h-4 mr-1" />
             <span className="font-semibold text-gray-800">{recipe.price}</span>
           </div>
         </div>

@@ -117,9 +117,9 @@ const RecipeForm = ({ recipe, isOpen, onClose, onSave }) => {
             </div>
             {/* Price */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Price ($) *
-              </label>
+             <label className="block text-sm font-medium text-gray-700 mb-2">
+  Price (₹) *
+</label>
               <input
                 type="number"
                 required

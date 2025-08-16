@@ -214,14 +214,14 @@ const OrderManagement = () => {
                       {item.quantity}x {item.name}
                     </span>
                     <span className="text-gray-800 font-medium">
-                      ${(item.quantity * item.price).toFixed(2)}
+                      ₹{(item.quantity * item.price).toFixed(2)}
                     </span>
                   </div>
                 ))}
                 <div className="border-t border-gray-200 pt-2 mt-2">
                   <div className="flex justify-between font-semibold">
                     <span>Total</span>
-                    <span>${order.total.toFixed(2)}</span>
+                    <span>₹{order.total.toFixed(2)}</span>
                   </div>
                 </div>
                 {order.notes && (
@@ -280,7 +280,7 @@ const OrderManagement = () => {
                     {selectedOrder.items.map((item, index) => (
                       <div key={index} className="flex justify-between text-sm">
                         <span>{item.quantity}x {item.name}</span>
-                        <span>${(item.quantity * item.price).toFixed(2)}</span>
+                        <span>₹{(item.quantity * item.price).toFixed(2)}</span>
                       </div>
                     ))}
                   </div>
@@ -288,7 +288,7 @@ const OrderManagement = () => {
                 <div className="border-t border-gray-200 pt-2">
                   <div className="flex justify-between font-semibold">
                     <span>Total</span>
-                    <span>${selectedOrder.total.toFixed(2)}</span>
+                    <span>₹{selectedOrder.total.toFixed(2)}</span>
                   </div>
                 </div>
               </div>

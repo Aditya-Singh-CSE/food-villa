@@ -1,47 +1,21 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Plus, Search, Filter } from 'lucide-react';
 import RecipeCard from './RecipeCard';
 import RecipeForm from './RecipeForm';
+import { useAuth } from '../../../context/AuthContext';
+import {
+  getRecipes,
+  addRecipe,
+  updateRecipe,
+  deleteRecipe,
+  toggleRecipeAvailability
+} from '../../../services/recipeService';
 
 export default function RecipeManagement() {
-  const [recipes, setRecipes] = useState([
-    {
-      id: '1',
-      name: 'Chicken Biryani',
-      description: 'Aromatic basmati rice cooked with tender chicken and fragrant spices',
-      price: 24.50,
-      image: 'https://images.pexels.com/photos/8992991/pexels-photo-8992991.jpeg?auto=compress&cs=tinysrgb&w=500',
-      category: 'Main Course',
-      prepTime: 45,
-      rating: 4.8,
-      isAvailable: true,
-      ingredients: ['Basmati Rice', 'Chicken', 'Onions', 'Yogurt', 'Spices', 'Saffron']
-    },
-    {
-      id: '2',
-      name: 'Margherita Pizza',
-      description: 'Classic pizza with fresh tomatoes, mozzarella, and basil',
-      price: 18.00,
-      image: 'https://images.pexels.com/photos/315755/pexels-photo-315755.jpeg?auto=compress&cs=tinysrgb&w=500',
-      category: 'Main Course',
-      prepTime: 20,
-      rating: 4.6,
-      isAvailable: true,
-      ingredients: ['Pizza Dough', 'Tomato Sauce', 'Mozzarella', 'Basil', 'Olive Oil']
-    },
-    {
-      id: '3',
-      name: 'Chocolate Lava Cake',
-      description: 'Decadent chocolate cake with a molten chocolate center',
-      price: 12.50,
-      image: 'https://images.pexels.com/photos/291528/pexels-photo-291528.jpeg?auto=compress&cs=tinysrgb&w=500',
-      category: 'Dessert',
-      prepTime: 25,
-      rating: 4.9,
-      isAvailable: false,
-      ingredients: ['Dark Chocolate', 'Butter', 'Eggs', 'Sugar', 'Flour', 'Vanilla']
-    }
-  ]);
+  const { user } = useAuth();
+  const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingRecipe, setEditingRecipe] = useState(undefined);
@@ -49,6 +23,30 @@ export default function RecipeManagement() {
   const [selectedCategory, setSelectedCategory] = useState('');
 
   const categories = ['All', 'Appetizer', 'Main Course', 'Dessert', 'Beverage', 'Side Dish', 'Soup'];
+
+  // Fetch recipes on component mount
+  useEffect(() => {
+    fetchRecipes();
+  }, [user]);
+
+  const fetchRecipes = async () => {
+    if (!user) return;
+    
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const merchantId = user.id || user.email; // Use user ID or email as merchant identifier
+      const fetchedRecipes = await getRecipes(merchantId);
+      console.log("fetchedRecipes:",fetchedRecipes)
+      setRecipes(fetchedRecipes.recipes);
+    } catch (err) {
+      console.error('Error fetching recipes:', err);
+      setError('Failed to load recipes. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleAddRecipe = () => {
     setEditingRecipe(undefined);
@@ -60,34 +58,60 @@ export default function RecipeManagement() {
     setIsFormOpen(true);
   };
 
-  const handleDeleteRecipe = (id) => {
+  const handleDeleteRecipe = async (id) => {
     if (window.confirm('Are you sure you want to delete this recipe?')) {
-      setRecipes(recipes.filter(recipe => recipe.id !== id));
+      try {
+        await deleteRecipe(id);
+        setRecipes(recipes.filter(recipe => recipe.id !== id));
+      } catch (err) {
+        console.error('Error deleting recipe:', err);
+        setError('Failed to delete recipe. Please try again.');
+      }
     }
   };
 
-  const handleToggleAvailability = (id) => {
-    setRecipes(recipes.map(recipe => 
-      recipe.id === id ? { ...recipe, isAvailable: !recipe.isAvailable } : recipe
-    ));
+  const handleToggleAvailability = async (id) => {
+    const recipe = recipes.find(r => r.id === id);
+    if (!recipe) return;
+
+    try {
+      const updatedRecipe = await toggleRecipeAvailability(id, !recipe.isAvailable);
+      setRecipes(recipes.map(r => 
+        r.id === id ? { ...r, isAvailable: !r.isAvailable } : r
+      ));
+    } catch (err) {
+      console.error('Error toggling recipe availability:', err);
+      setError('Failed to update recipe availability. Please try again.');
+    }
   };
 
-  const handleSaveRecipe = (recipeData) => {
-    if (editingRecipe) {
-      // Update existing recipe
-      setRecipes(recipes.map(recipe => 
-        recipe.id === editingRecipe.id 
-          ? { ...recipe, ...recipeData }
-          : recipe
-      ));
-    } else {
-      // Add new recipe
-      const newRecipe = {
-        ...recipeData,
-        id: Date.now().toString(),
-        rating: 0
-      };
-      setRecipes([...recipes, newRecipe]);
+  const handleSaveRecipe = async (recipeData) => {
+    try {
+      if (editingRecipe) {
+        // Update existing recipe
+        const updatedRecipe = await updateRecipe(editingRecipe.id, recipeData);
+        setRecipes(recipes.map(recipe => 
+          recipe.id === editingRecipe.id 
+            ? { ...recipe, ...recipeData }
+            : recipe
+        ));
+      } else {
+        // Add new recipe
+        const merchantId = user.id || user.email;
+        const newRecipeData = {
+          ...recipeData,
+          merchantId,
+          rating: 0
+        };
+        const newRecipe = await addRecipe(newRecipeData);
+        console.log("after adding newRecipe the response is :",newRecipe)
+        setRecipes([...recipes, newRecipe.recipe]);
+      }
+      setIsFormOpen(false);
+      setEditingRecipe(undefined);
+    } catch (err) {
+      console.error('Error saving recipe:', err);
+      setError('Failed to save recipe. Please try again.');
     }
   };
 
@@ -98,8 +122,37 @@ export default function RecipeManagement() {
     return matchesSearch && matchesCategory;
   });
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-pink-500 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading recipes...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
+      {/* Error Message */}
+      {error && (
+        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
+          <div className="flex items-center">
+            <div className="text-red-600">
+              <p className="font-medium">Error</p>
+              <p className="text-sm">{error}</p>
+            </div>
+            <button
+              onClick={() => setError(null)}
+              className="ml-auto text-red-600 hover:text-red-800"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
@@ -181,13 +234,20 @@ export default function RecipeManagement() {
         ))}
       </div>
 
-      {filteredRecipes.length === 0 && (
+      {filteredRecipes.length === 0 && !loading && (
         <div className="text-center py-12">
           <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
             <Search className="w-8 h-8 text-gray-400" />
           </div>
-          <h3 className="text-lg font-semibold text-gray-800 mb-2">No recipes found</h3>
-          <p className="text-gray-600">Try adjusting your search or filter criteria</p>
+          <h3 className="text-lg font-semibold text-gray-800 mb-2">
+            {recipes.length === 0 ? 'No recipes yet' : 'No recipes found'}
+          </h3>
+          <p className="text-gray-600">
+            {recipes.length === 0 
+              ? 'Start by adding your first recipe to the menu' 
+              : 'Try adjusting your search or filter criteria'
+            }
+          </p>
         </div>
       )}
 

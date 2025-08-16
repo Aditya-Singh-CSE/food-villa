@@ -7,7 +7,7 @@ const initialRecipe = {
   name: "",
   description: "",
   price: "",
-  image: "",
+  imageUrl: "",
   ingredients: "",
 };
 
@@ -48,7 +48,7 @@ const RecipeManager = () => {
       <form className="recipe-form" onSubmit={handleSubmit}>
         <input name="name" value={form.name} onChange={handleChange} placeholder="Recipe Name" required />
         <input name="price" value={form.price} onChange={handleChange} placeholder="Price" type="number" required />
-        <input name="image" value={form.image} onChange={handleChange} placeholder="Image URL" />
+        <input name="imageUrl" value={form.imageUrl} onChange={handleChange} placeholder="Image URL" />
         <textarea name="description" value={form.description} onChange={handleChange} placeholder="Description" />
         <textarea name="ingredients" value={form.ingredients} onChange={handleChange} placeholder="Ingredients (comma separated)" />
         <button type="submit">{editingId ? "Update" : "Add"} Recipe</button>

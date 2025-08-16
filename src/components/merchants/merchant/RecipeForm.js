@@ -6,10 +6,10 @@ const RecipeForm = ({ recipe, isOpen, onClose, onSave }) => {
     name: '',
     description: '',
     price: 0,
-    image: '',
+    imageUrl: '',
     category: '',
     prepTime: 0,
-    isAvailable: true,
+    availableForOrder: true,
     ingredients: ['']
   });
   useEffect(() => {
@@ -18,10 +18,10 @@ const RecipeForm = ({ recipe, isOpen, onClose, onSave }) => {
         name: recipe.name,
         description: recipe.description,
         price: recipe.price,
-        image: recipe.image,
+        imageUrl: recipe.image || recipe.imageUrl || '',
         category: recipe.category,
         prepTime: recipe.prepTime,
-        isAvailable: recipe.isAvailable,
+        availableForOrder: recipe.isAvailable,
         ingredients: recipe.ingredients.length > 0 ? recipe.ingredients : ['']
       });
     } else {
@@ -29,10 +29,10 @@ const RecipeForm = ({ recipe, isOpen, onClose, onSave }) => {
         name: '',
         description: '',
         price: 0,
-        image: '',
+        imageUrl: '',
         category: '',
         prepTime: 0,
-        isAvailable: true,
+        availableForOrder: true,
         ingredients: ['']
       });
     }
@@ -170,8 +170,8 @@ const RecipeForm = ({ recipe, isOpen, onClose, onSave }) => {
               <input
                 type="url"
                 required
-                value={formData.image}
-                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                value={formData.imageUrl}
+                onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-transparent"
                 placeholder="https://example.com/image.jpg"
               />
@@ -228,7 +228,7 @@ const RecipeForm = ({ recipe, isOpen, onClose, onSave }) => {
               type="checkbox"
               id="isAvailable"
               checked={formData.isAvailable}
-              onChange={(e) => setFormData(prev => ({ ...prev, isAvailable: e.target.checked }))}
+              onChange={(e) => setFormData(prev => ({ ...prev, availableForOrder: e.target.checked }))}
               className="w-4 h-4 text-pink-500 border-gray-300 rounded focus:ring-pink-500"
             />
             <label htmlFor="isAvailable" className="text-sm font-medium text-gray-700">

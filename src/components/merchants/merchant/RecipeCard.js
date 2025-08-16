@@ -8,7 +8,7 @@ const RecipeCard = ({ recipe, onEdit, onDelete, onToggleAvailability }) => {
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={recipe.image}
+          src={recipe.imageUrl}
           alt={recipe.name}
           className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
         />

@@ -1,5 +1,6 @@
 import {useState, useEffect} from 'react';
 import { swiggy_menu_api_URL,RESTAURANT_TYPE_KEY, MENU_ITEM_TYPE_KEY } from '../constants';
+import { httpPost } from '../services/util';
 
 const useRestrauntMenuData = (id)=>{
     const [restaurant, setRestaurant] = useState(null);
@@ -10,27 +11,29 @@ const useRestrauntMenuData = (id)=>{
     }, []);
   
     async function getRestaurantInfo() {
-      const data = await fetch(swiggy_menu_api_URL + id);
-      console.log("URL:", swiggy_menu_api_URL + id);
-      const json = await data.json();
-      console.log(json);
+      // const data = await fetch(swiggy_menu_api_URL + id);
+      // console.log("URL:", swiggy_menu_api_URL + id);
+      // const json = await data.json();
+
+        const data = await httpPost("", {
+                       command: "get_restaurant_by_id",
+                       data:{
+                        restaurantId: id
+                       }
+                     });
+
+
+
+      // console.log(json);
       // Set restaurant data
       const restaurantData =
-        json?.data?.cards
-          ?.map((x) => x.card)
-          ?.find((x) => x && x.card["@type"] === RESTAURANT_TYPE_KEY)?.card
-          ?.info || null;
+        data?.data?.restaurant || null;
+        console.log("Specific Res data:",restaurantData)
       setRestaurant(restaurantData);
   
       // Set menu item data
       const menuItemsData =
-        json?.data?.cards
-          .find((x) => x.groupedCard)
-          ?.groupedCard?.cardGroupMap?.REGULAR?.cards?.map((x) => x.card?.card)
-          ?.filter((x) => x["@type"] === MENU_ITEM_TYPE_KEY)
-          ?.map((x) => x.itemCards)
-          .flat()
-          .map((x) => x.card?.info) || [];
+        restaurantData?.recipes || [];
   
          const uniqueMenuItems = [];
          menuItemsData.forEach((item) => {

@@ -6,6 +6,7 @@ import Shimmer from "./Shimmer";
 import { filterData } from "../utils/helper";
 import useOnline from "../hooks/useOnline";
 import UserContext from "../context/UserContext";
+import { httpPost } from "../services/util";
 
 
 // function filterData(searchText, items, keyPath) {
@@ -29,9 +30,15 @@ const Body = ({ key }) => {
   useEffect(() => {
     const fetchRestaurants = async () => {
       try {
-        const data = await fetch(swiggy_api_URL);
-        const json = await data.json();
-        const restaurantAll = json?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || [];
+        const data = await httpPost("", {
+                command: "get_restaurants"
+              });
+        // 
+        // console.log("JSON:",data)
+        // const json = await data.json();
+        const restaurantAll = data.data.restaurants || [];
+        console.log("JSON:",restaurantAll)
+        console.log("length of recipes:",restaurantAll.length)
         setAllRestaurants(restaurantAll);
         setFilteredRestaurants(restaurantAll);
         setSearchText('');
@@ -157,10 +164,10 @@ const Body = ({ key }) => {
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 sm:gap-4 md:gap-6" data-testid="res-list">
             {filteredRestaurants.map((restaurant) => (
-              <div key={restaurant?.info?.id} className="h-full">
+              <div key={restaurant?.id} className="h-full">
                 <RestrauntCard 
-                  id={restaurant?.info?.id}
-                  {...restaurant.info} 
+                  id={restaurant?.id}
+                  {...restaurant} 
                 />
               </div>
             ))}

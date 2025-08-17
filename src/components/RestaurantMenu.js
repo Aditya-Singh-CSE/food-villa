@@ -6,11 +6,14 @@ import { useDispatch } from "react-redux";
 import { addItem } from "../utils/cartSlice";
 
 const RestaurantMenu = () => {
-  const { resId } = useParams();
+  console.log("This is original one RestaurantMenu.js is rendered")
+  const { resId } = useParams(); 
+  console.log("Pass this id to useRestrauntMenuData:", resId)
   const [restaurant, menuItems] = useRestrauntMenuData(resId);
   const dispatch = useDispatch();
 
   const addFoodItem = (item) => {
+    console.log("ADD this food item to cart that is in redux:",item)
     dispatch(addItem(item));
   };
 
@@ -86,7 +89,7 @@ const RestaurantMenu = () => {
         <div className="space-y-6">
           {menuItems.length > 0 ? (
             menuItems.map((item) => {
-              const dish = item.card?.info;
+              const dish = item;
               if (!dish) return null;
               
               return (
@@ -111,7 +114,7 @@ const RestaurantMenu = () => {
                       <div>
                         <h3 className="font-medium text-gray-900">{dish.name}</h3>
                         <p className="text-sm text-gray-600 mt-1">
-                          ₹{dish.price ? dish.price / 100 : dish.defaultPrice / 100}
+                          ₹{dish.price ? dish.price  : dish.defaultPrice}
                         </p>
                         <p className="text-sm text-gray-500 mt-2">
                           {dish.description}
@@ -119,10 +122,10 @@ const RestaurantMenu = () => {
                       </div>
                     </div>
                   </div>
-                  {dish.imageId ? (
+                  {dish.image ? (
                     <div className="relative w-32 h-24 flex-shrink-0 rounded-lg overflow-hidden">
                       <img
-                        src={`${IMG_CDN_URL}${dish.imageId}`}
+                        src={dish.image}
                         alt={dish.name}
                         className="w-full h-full object-cover"
                       />

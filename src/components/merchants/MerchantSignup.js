@@ -87,6 +87,7 @@ const MerchantSignup = () => {
         },
       });
 
+      // Here login means pass the data to AuthContext
         const result = await login({
         token: data?.data?.token,
         email: data?.data?.user?.email,

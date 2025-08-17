@@ -52,7 +52,7 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
     if (isSignup && enableEmailVerification && !showOtpField) {
       setIsLoading(true);
       try {
-        await httpPost("/auth/command", {
+        await httpPost("", {
           commandName: "send_otp",
           commandPayload: { email: formData.email, clientId: "note-app" },
         });
@@ -61,6 +61,8 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
         alert(err.message || "Could not send OTP");
       } finally {
         setIsLoading(false);
+        console.log("OTP sent")
+        setShowOtpField(true);
       }
       return;
     }

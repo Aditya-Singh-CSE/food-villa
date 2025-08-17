@@ -17,6 +17,7 @@ const RestrauntMenu = () => {
   const params = useParams();
   const { id } = params;
 
+  console.log("Pass this id to useRestrauntMenuData:", id)
   const [restaurant, menuItems] = useRestrauntMenuData(id);
 
   const dispatch = useDispatch();

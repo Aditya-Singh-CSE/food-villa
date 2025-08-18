@@ -70,15 +70,17 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
     // ── 2.  LOGIN or VERIFY OTP (second step) ──
     setIsLoading(true);
     try {
+      // For CUSTOMER SIGNUP
       const payload = isSignup
         ? {
-            commandName: "sign_up",
-            commandPayload: {
+            command: "register_entity",
+            data: {
               email: formData.email,
               password: formData.password,
               role: "user",
               otp: formData.otp,
-              clientId: "note-app",
+              clientId: "foodVilla",
+              name: "customer-1"
             },
           }
         : {
@@ -113,6 +115,8 @@ const AuthModal = ({ isOpen, onClose, type = 'login', onSuccess, enableEmailVeri
           navigate('/merchant/dashboard')
         } else if (role === "customer"){
           console.log("Redirect to Customer dashboard")
+          navigate('/restaurants')
+
         }
       }
     } catch (err) {

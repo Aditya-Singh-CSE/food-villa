@@ -13,6 +13,7 @@ import Cart from "./components/Cart";
 import MerchantPage from "./components/merchants/MerchantPage";
 import MerchantSignup from "./components/merchants/MerchantSignup";
 import MerchantDashboard from "./components/merchants/MerchantDashboard";
+import Checkout from "./components/Checkout";
 
 // import RestrauntMenu from "./components/RestrauntMenu";
 import RestaurantMenu from "./components/RestaurantMenu";
@@ -111,6 +112,11 @@ const router = createBrowserRouter([
         element:<Cart/>,
         errorElement: <Error />,
       },
+      {
+        path : "/checkout",
+        element: <Checkout/>,
+        errorElement: <Error />,
+      }
     ],
   },
   {

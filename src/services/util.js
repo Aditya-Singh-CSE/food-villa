@@ -1,5 +1,5 @@
-// const API_URL = "https://food-villa-backend-zf7db.sevalla.app/execute/command";   // <-- change once
-const API_URL = "http://localhost:8080/execute/command";
+ const API_URL = "https://food-villa-backend-zf7db.sevalla.app/execute/command";   // <-- change once
+//const API_URL = "http://localhost:8080/execute/command";
 
 // Razorpay test configuration
 export const RAZORPAY_CONFIG = {

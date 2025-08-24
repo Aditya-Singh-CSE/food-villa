@@ -14,7 +14,10 @@ const RestaurantMenu = () => {
 
   const addFoodItem = (item) => {
     console.log("ADD this food item to cart that is in redux:",item)
-    dispatch(addItem(item));
+    dispatch(addItem({
+      item: item,
+      restaurantId: resId
+    }));
   };
 
   if (!restaurant) {

@@ -6,10 +6,26 @@ const cartSlice = createSlice({
         items: [],
         totalAmount: 0,
         totalItems: 0,
+        restaurantId: null,
     },
     reducers: {
         addItem: (state, action) => {
-            const newItem = action.payload;
+            const { item, restaurantId } = action.payload;
+            const newItem = item || action.payload; // Support both new format {item, restaurantId} and old format (just item)
+            const resId = restaurantId || action.payload.restaurantId;
+            
+            // If cart has items from different restaurant, clear the cart first
+            if (state.restaurantId && resId && state.restaurantId !== resId) {
+                state.items = [];
+                state.totalAmount = 0;
+                state.totalItems = 0;
+            }
+            
+            // Set restaurant ID if provided
+            if (resId) {
+                state.restaurantId = resId;
+            }
+            
             const existingItem = state.items.find(item => item.id === newItem.id);
             
             if (existingItem) {
@@ -19,7 +35,7 @@ const cartSlice = createSlice({
                 state.items.push({
                     ...newItem,
                     quantity: 1,
-                    totalPrice: newItem.price
+                    totalPrice: newItem.price || newItem.defaultPrice
                 });
             }
             
@@ -56,6 +72,7 @@ const cartSlice = createSlice({
             state.items = [];
             state.totalAmount = 0;
             state.totalItems = 0;
+            state.restaurantId = null;
         },
     },
 });

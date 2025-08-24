@@ -18,7 +18,7 @@ import {
 } from 'lucide-react';
 
 const Checkout = () => {
-  const { items: cartItems, totalAmount, totalItems } = useSelector((store) => store.cart);
+  const { items: cartItems, totalAmount, totalItems, restaurantId } = useSelector((store) => store.cart);
   const { user } = useAuth();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -122,7 +122,8 @@ const Checkout = () => {
         phone: deliveryAddress.phone
       },
       items: cartItems,
-      deliveryAddress
+      deliveryAddress,
+      restaurantId: restaurantId
     };
 
     try {

@@ -25,7 +25,10 @@ const RestrauntMenu = () => {
 
 
   const addFoodItem = (item) =>{
-    dispatch(addItem(item));
+    dispatch(addItem({
+      item: item,
+      restaurantId: id
+    }));
   };
 
 

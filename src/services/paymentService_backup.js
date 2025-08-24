@@ -17,14 +17,14 @@ export const loadRazorpayScript = () => {
 
 // Create Razorpay order
 export const createRazorpayOrder = async (orderData) => {
-  // const payload = {
-  //   amount: orderData.amount, // Amount in paise (multiply by 100)
-  //   currency: orderData.currency || 'INR',
-  //   customerInfo: orderData.customerInfo,
-  //   items: orderData.items,
-  //   deliveryAddress: orderData.deliveryAddress,
-  //   action: 'create_payment_order'
-  // };
+  const payload = {
+    amount: orderData.amount, // Amount in paise (multiply by 100)
+    currency: orderData.currency || 'INR',
+    customerInfo: orderData.customerInfo,
+    items: orderData.items,
+    deliveryAddress: orderData.deliveryAddress,
+    action: 'create_payment_order'
+  };
 
   try {
     console.log("Order data:", orderData);
@@ -32,7 +32,7 @@ export const createRazorpayOrder = async (orderData) => {
     const response = await httpPost('', {
         command: "create_payment_order",
         data: {
-          restaurantId: orderData.restaurantId || "",
+          restaurantId:"",
           items: orderData.items,
           paymentMethod: "razorpay",
           deliveryAddress: orderData.deliveryAddress
@@ -75,14 +75,13 @@ export const initiateRazorpayPayment = async (orderData, callbacks) => {
     }
 
     // Create order
-const order = await createRazorpayOrder({
-  amount: Math.round(orderData.totalAmount * 100), // Convert to paise
-  currency: 'INR',
-  customerInfo: orderData.customerInfo,
-  items: orderData.items,
-  deliveryAddress: orderData.deliveryAddress,
-  restaurantId: orderData.restaurantId  // Add this line
-});
+    const order = await createRazorpayOrder({
+      amount: Math.round(orderData.totalAmount * 100), // Convert to paise
+      currency: 'INR',
+      customerInfo: orderData.customerInfo,
+      items: orderData.items,
+      deliveryAddress: orderData.deliveryAddress
+    });
 
     const options = {
       key: process.env.REACT_APP_RAZORPAY_KEY_ID, // Your Razorpay key

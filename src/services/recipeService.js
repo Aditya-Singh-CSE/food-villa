@@ -83,14 +83,16 @@ export const deleteRecipe = async (recipeId) => {
 
 // Toggle recipe availability
 export const toggleRecipeAvailability = async (recipeId, isAvailable) => {
-  const payload = {
-    recipeId,
-    isAvailable,
-    action: 'toggle_availability'
+   const payload = {
+    command: 'toggle_availability',
+    data:{
+      recipeId,
+      availableForOrder:isAvailable
+    }
   };
   
   try {
-    const response = await apiPostRequest('/recipes/availability', payload);
+    const response = await httpPost('', payload);
     return response.data;
   } catch (error) {
     console.error('Failed to toggle recipe availability:', error);
